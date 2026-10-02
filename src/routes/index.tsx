@@ -96,9 +96,7 @@ function SalesPage() {
     document.head.appendChild(script);
     if (!window.fbq) {
       const pixelCalls: unknown[][] = [];
-      const pixelQueue = ((...args: unknown[]) => pixelCalls.push(args)) as NonNullable<typeof window.fbq>;
-      pixelQueue.queue = pixelCalls;
-      window.fbq = pixelQueue;
+      window.fbq = (...args: unknown[]) => { pixelCalls.push(args); };
     }
     window.fbq("init", PIXEL_ID);
     window.fbq("track", "PageView");
