@@ -95,8 +95,9 @@ function SalesPage() {
     script.src = "https://connect.facebook.net/en_US/fbevents.js";
     document.head.appendChild(script);
     if (!window.fbq) {
-      const pixelQueue = ((...args: unknown[]) => pixelQueue.queue?.push(args)) as NonNullable<typeof window.fbq>;
-      pixelQueue.queue = [];
+      const pixelCalls: unknown[][] = [];
+      const pixelQueue = ((...args: unknown[]) => pixelCalls.push(args)) as NonNullable<typeof window.fbq>;
+      pixelQueue.queue = pixelCalls;
       window.fbq = pixelQueue;
     }
     window.fbq("init", PIXEL_ID);
