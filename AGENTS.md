@@ -8,3 +8,6 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep the direct-response sales page as a single narrow mobile-first route because the requested funnel depends on one continuous narrative.
+- Keep VSL_URL and COD_CHECKOUT_URL as top-level editable constants in the home route so campaign destinations remain easy to replace.
