@@ -11,7 +11,7 @@ const PIXEL_ID = "1391656009669285";
 
 declare global {
   interface Window {
-    fbq?: (...args: unknown[]) => void;
+    fbq?: ((...args: unknown[]) => void) & { queue?: unknown[][] };
     _fbq?: unknown;
   }
 }
@@ -94,11 +94,11 @@ function SalesPage() {
     script.async = true;
     script.src = "https://connect.facebook.net/en_US/fbevents.js";
     document.head.appendChild(script);
-    window.fbq = window.fbq ?? function (...args: unknown[]) {
-      const queueOwner = window.fbq as typeof window.fbq & { queue?: unknown[][] };
-      queueOwner.queue = queueOwner.queue ?? [];
-      queueOwner.queue.push(args);
-    };
+    if (!window.fbq) {
+      const pixelQueue = ((...args: unknown[]) => pixelQueue.queue?.push(args)) as NonNullable<typeof window.fbq>;
+      pixelQueue.queue = [];
+      window.fbq = pixelQueue;
+    }
     window.fbq("init", PIXEL_ID);
     window.fbq("track", "PageView");
 
