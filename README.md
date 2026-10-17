@@ -130,8 +130,7 @@ No topo da página criar uma barra destacada:
 "⚠️ ATENÇÃO HOMENS EM 
 
 Abaixo, em texto menor:
-
-"Veja a reportagem abaixo antes de tomar qualquer decisão."
+"
 
 ==================================================
 2. HERO
