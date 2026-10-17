@@ -7,12 +7,7 @@ import offerImage from "@/assets/strong-tea-offer.webp";
 import presenterImage from "@/assets/specialist-presenter.webp";
 import { Button } from "@/components/ui/button";
 
-// Edite aqui: link do vídeo (VSL) e destino dos botões de compra.
-const VSL_URL = "";
-const VSL_EMBED = {
-  playerId: "6acd742df6a57d8e37bb0a9b",
-  oid: "314571fb-43f0-4102-a318-e6d10d154a09",
-};
+// Destino dos botões de compra.
 const COD_CHECKOUT_URL = "/pedido";
 const PIXEL_ID = "1391656009669285";
 
@@ -29,7 +24,7 @@ export const Route = createFileRoute("/")({
       { title: "Strong Black Tea para Homens | Pagamento na Entrega" },
       { name: "description", content: "Conheça Strong Black Tea para homens e veja a oferta com entrega discreta e pagamento na entrega em Moçambique." },
       { property: "og:title", content: "Strong Black Tea para Homens em Moçambique" },
-      { property: "og:description", content: "Assista à apresentação e conheça a solução com pagamento na entrega." },
+      { property: "og:description", content: "Conheça a oferta com entrega discreta e pagamento na entrega." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -68,39 +63,6 @@ const testimonials = [
 
 function trackCheckout() {
   window.fbq?.("track", "InitiateCheckout");
-}
-
-function VslPlayer() {
-  useEffect(() => {
-    if (VSL_URL) return;
-    const scriptId = `scr_${VSL_EMBED.playerId}`;
-    if (document.getElementById(scriptId)) return;
-    const script = document.createElement("script");
-    script.id = scriptId;
-    script.async = true;
-    script.src = `https://scripts.converteai.net/${VSL_EMBED.oid}/players/${VSL_EMBED.playerId}/v4/player.js`;
-    document.head.appendChild(script);
-  }, []);
-
-  if (VSL_URL) {
-    return (
-      <div className="aspect-video overflow-hidden bg-card">
-        <iframe src={VSL_URL} title="Reportagem sobre desempenho masculino" className="h-full w-full" allow="autoplay; fullscreen" />
-      </div>
-    );
-  }
-
-  return (
-    <div id={`vid_${VSL_EMBED.playerId}`} className="relative w-full" style={{ padding: "150.75% 0 0" }}>
-      <img
-        id={`thumb_${VSL_EMBED.playerId}`}
-        src={`https://images.converteai.net/${VSL_EMBED.oid}/players/${VSL_EMBED.playerId}/thumbnail.jpg`}
-        alt="Reportagem em vídeo"
-        className="absolute left-0 top-0 block h-full w-full object-cover"
-      />
-      <div id={`all_${VSL_EMBED.playerId}`} className="absolute left-0 top-0 h-full w-full" />
-    </div>
-  );
 }
 
 function CheckoutButton({ children }: { children: React.ReactNode }) {
@@ -177,19 +139,12 @@ function SalesPage() {
         <section className="relative px-4 pb-7 pt-6 text-center">
           <div className="absolute inset-x-0 top-0 h-1 bg-warning" />
           <h1 className="mt-2 text-[2.35rem] font-black uppercase leading-[0.92] text-foreground">Descubra <span className="text-warning">o que muitos homens estão a usar para</span> recuperar a potência e firmeza</h1>
-          <p className="mx-auto mt-4 max-w-md text-[15px] leading-6 text-muted-foreground">Veja a reportagem abaixo dedicada a homens que procuram uma fórmula para aumentar o desempenho íntimo.</p>
-        </section>
-
-        <section className="px-4 pb-8">
-          <div className="overflow-hidden rounded-md border border-border bg-card shadow-xl">
-            <VslPlayer />
-          </div>
-          <p className="mt-3 text-center font-sans text-sm font-bold uppercase text-accent">▶ Assista o vídeo para entender como funciona</p>
+          <p className="mx-auto mt-4 max-w-md text-[15px] leading-6 text-muted-foreground">Conheça a proposta do produto, com pedido discreto e pagamento na entrega em Moçambique.</p>
         </section>
 
         <section className="border-y border-border bg-card px-5 py-8 text-center">
-          <h2 className="text-3xl font-black uppercase leading-none">Já viu o vídeo?</h2>
-          <p className="mt-4 text-sm leading-relaxed text-muted-foreground">Agora veja o produto que está a ser falado ao nível nacional e recomendado a quem busca ser homem de verdade.</p>
+          <h2 className="text-3xl font-black uppercase leading-none">Conheça a proposta</h2>
+          <p className="mt-4 text-sm leading-relaxed text-muted-foreground">Veja os detalhes do produto e as condições de pedido com pagamento na entrega.</p>
           <Button className="mt-5" onClick={() => document.querySelector("#produto")?.scrollIntoView({ behavior: "smooth" })}>Ver o produto e oferta</Button>
           <div className="mt-5"><TrustRow compact /></div>
         </section>
@@ -252,21 +207,6 @@ function SalesPage() {
           <p className="mt-4 text-center text-xs text-muted-foreground">Relatos de clientes que autorizaram a partilha da sua experiência.</p>
         </section>
 
-        <section id="pedido" className="px-4 py-12">
-          <div className="rounded-md border border-gold/50 bg-card p-5 text-center shadow-2xl">
-            <Badge warning>🔥 Oferta Strong Black Tea</Badge>
-            <h2 className="mt-5 text-4xl font-black uppercase leading-none">Veja exactamente <span className="text-primary">o que vai receber</span></h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Uma embalagem original de Strong Black Tea para homens, apresentada de forma clara antes de fazer o seu pedido.</p>
-            <img src={offerImage} alt="Embalagem Strong Black Tea para homens com chá preparado" loading="lazy" className="mx-auto mt-5 w-full rounded-md border border-border" />
-            <p className="text-sm font-black uppercase text-muted-foreground">Produto físico • 20g • Pague ao receber</p>
-            <p className="mt-2 font-sans text-6xl font-black leading-none text-gold">1.049 <span className="text-3xl">MT</span></p>
-            <p className="mt-2 text-xs font-semibold text-muted-foreground">Pagamento na entrega para melhor segurança em ambas partes</p>
-            <div className="my-6"><TrustRow /></div>
-            <CheckoutButton>Quero receber em casa</CheckoutButton>
-            <p className="mt-3 flex items-center justify-center gap-1 text-[11px] font-semibold text-muted-foreground"><ShieldCheck className="h-4 w-4 text-primary" /> Pagamento somente no momento da entrega</p>
-          </div>
-        </section>
-
         <section className="border-y border-border bg-secondary px-5 py-12">
           <SectionTitle>Como receber</SectionTitle>
           <div className="mt-7 space-y-3">{["Clique no botão de pedido", "Preencha os seus dados no formulário", "Confirme o pedido no WhatsApp", "Receba na sua zona e pague na entrega"].map((step, index) => <div key={step} className="grid grid-cols-[46px_minmax(0,1fr)] items-center gap-3 rounded-md border border-border bg-card p-3"><span className="font-sans text-2xl font-black text-primary">0{index + 1}</span><p className="text-sm font-black uppercase">{step}</p></div>)}</div>
@@ -286,7 +226,7 @@ function SalesPage() {
 
         <section className="px-5 py-14 text-center">
           <h2 className="text-4xl font-black uppercase leading-none">Está na hora de cuidar mais da <span className="text-primary">sua confiança</span></h2>
-          <p className="mt-5 text-base leading-relaxed text-muted-foreground">Assista ao vídeo, conheça a proposta e se fizer sentido para si, faça o seu pedido.</p>
+          <p className="mt-5 text-base leading-relaxed text-muted-foreground">Conheça os detalhes da oferta e, se fizer sentido para si, faça o seu pedido.</p>
           <div className="my-6"><TrustRow /></div>
           <CheckoutButton>Quero receber em casa</CheckoutButton>
         </section>
