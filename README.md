@@ -127,7 +127,7 @@ A revelação do Strong Black Tea acontece depois do VSL.
 
 No topo da página criar uma barra destacada:
 
-"⚠️ ATENÇÃO HOMENS EM MOÇAMBIQUE"
+"⚠️ ATENÇÃO HOMENS EM 
 
 Abaixo, em texto menor:
 
