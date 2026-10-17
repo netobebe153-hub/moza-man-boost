@@ -157,7 +157,7 @@ NÃO revelar ainda:
 - checkout.
 
 ==================================================
-3. VSL / REPORTAGEM
+3. remova VSL / REPORTAGEM
 ==================================================
 
 Criar um player de vídeo 16:9 imediatamente depois do Hero.
