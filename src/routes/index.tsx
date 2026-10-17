@@ -70,6 +70,39 @@ function trackCheckout() {
   window.fbq?.("track", "InitiateCheckout");
 }
 
+function VslPlayer() {
+  useEffect(() => {
+    if (VSL_URL) return;
+    const scriptId = `scr_${VSL_EMBED.playerId}`;
+    if (document.getElementById(scriptId)) return;
+    const script = document.createElement("script");
+    script.id = scriptId;
+    script.async = true;
+    script.src = `https://scripts.converteai.net/${VSL_EMBED.oid}/players/${VSL_EMBED.playerId}/v4/player.js`;
+    document.head.appendChild(script);
+  }, []);
+
+  if (VSL_URL) {
+    return (
+      <div className="aspect-video overflow-hidden bg-card">
+        <iframe src={VSL_URL} title="Reportagem sobre desempenho masculino" className="h-full w-full" allow="autoplay; fullscreen" />
+      </div>
+    );
+  }
+
+  return (
+    <div id={`vid_${VSL_EMBED.playerId}`} className="relative w-full" style={{ padding: "150.75% 0 0" }}>
+      <img
+        id={`thumb_${VSL_EMBED.playerId}`}
+        src={`https://images.converteai.net/${VSL_EMBED.oid}/players/${VSL_EMBED.playerId}/thumbnail.jpg`}
+        alt="Reportagem em vídeo"
+        className="absolute left-0 top-0 block h-full w-full object-cover"
+      />
+      <div id={`all_${VSL_EMBED.playerId}`} className="absolute left-0 top-0 h-full w-full" />
+    </div>
+  );
+}
+
 function CheckoutButton({ children }: { children: React.ReactNode }) {
   return (
     <Button asChild>
