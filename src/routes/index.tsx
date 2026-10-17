@@ -2,10 +2,17 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Check, ChevronDown, LockKeyhole, MapPin, Play, ShieldCheck, Truck, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import productImage from "@/assets/strong-black-tea-product.png";
+import packImage from "@/assets/strong-tea-pack.webp";
+import offerImage from "@/assets/strong-tea-offer.webp";
+import presenterImage from "@/assets/specialist-presenter.webp";
 import { Button } from "@/components/ui/button";
 
+// Edite aqui: link do vídeo (VSL) e destino dos botões de compra.
 const VSL_URL = "";
+const VSL_EMBED = {
+  playerId: "6acd742df6a57d8e37bb0a9b",
+  oid: "314571fb-43f0-4102-a318-e6d10d154a09",
+};
 const COD_CHECKOUT_URL = "/pedido";
 const PIXEL_ID = "1391656009669285";
 
