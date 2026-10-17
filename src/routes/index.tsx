@@ -1,11 +1,18 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Check, ChevronDown, LockKeyhole, MapPin, Play, ShieldCheck, Truck, X } from "lucide-react";
+import { Check, ChevronDown, LockKeyhole, MapPin, ShieldCheck, Truck, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import productImage from "@/assets/strong-black-tea-product.png";
+import packImage from "@/assets/strong-tea-pack.webp";
+import offerImage from "@/assets/strong-tea-offer.webp";
+import presenterImage from "@/assets/specialist-presenter.webp";
 import { Button } from "@/components/ui/button";
 
+// Edite aqui: link do vídeo (VSL) e destino dos botões de compra.
 const VSL_URL = "";
+const VSL_EMBED = {
+  playerId: "6acd742df6a57d8e37bb0a9b",
+  oid: "314571fb-43f0-4102-a318-e6d10d154a09",
+};
 const COD_CHECKOUT_URL = "/pedido";
 const PIXEL_ID = "1391656009669285";
 
@@ -61,6 +68,39 @@ const testimonials = [
 
 function trackCheckout() {
   window.fbq?.("track", "InitiateCheckout");
+}
+
+function VslPlayer() {
+  useEffect(() => {
+    if (VSL_URL) return;
+    const scriptId = `scr_${VSL_EMBED.playerId}`;
+    if (document.getElementById(scriptId)) return;
+    const script = document.createElement("script");
+    script.id = scriptId;
+    script.async = true;
+    script.src = `https://scripts.converteai.net/${VSL_EMBED.oid}/players/${VSL_EMBED.playerId}/v4/player.js`;
+    document.head.appendChild(script);
+  }, []);
+
+  if (VSL_URL) {
+    return (
+      <div className="aspect-video overflow-hidden bg-card">
+        <iframe src={VSL_URL} title="Reportagem sobre desempenho masculino" className="h-full w-full" allow="autoplay; fullscreen" />
+      </div>
+    );
+  }
+
+  return (
+    <div id={`vid_${VSL_EMBED.playerId}`} className="relative w-full" style={{ padding: "150.75% 0 0" }}>
+      <img
+        id={`thumb_${VSL_EMBED.playerId}`}
+        src={`https://images.converteai.net/${VSL_EMBED.oid}/players/${VSL_EMBED.playerId}/thumbnail.jpg`}
+        alt="Reportagem em vídeo"
+        className="absolute left-0 top-0 block h-full w-full object-cover"
+      />
+      <div id={`all_${VSL_EMBED.playerId}`} className="absolute left-0 top-0 h-full w-full" />
+    </div>
+  );
 }
 
 function CheckoutButton({ children }: { children: React.ReactNode }) {
@@ -136,25 +176,20 @@ function SalesPage() {
 
         <section className="relative px-4 pb-7 pt-6 text-center">
           <div className="absolute inset-x-0 top-0 h-1 bg-warning" />
-          <h1 className="mt-2 text-[2.35rem] font-black uppercase leading-[0.92] text-foreground">Descubra <span className="text-warning">o que muitos homens estão a usar</span> para recuperar a potência e firmeza</h1>
+          <h1 className="mt-2 text-[2.35rem] font-black uppercase leading-[0.92] text-foreground">Descubra <span className="text-warning">o que muitos homens estão a usar para</span> recuperar a potência e firmeza</h1>
           <p className="mx-auto mt-4 max-w-md text-[15px] leading-6 text-muted-foreground">Veja a reportagem abaixo dedicada a homens que procuram uma fórmula para aumentar o desempenho íntimo.</p>
         </section>
 
         <section className="px-4 pb-8">
-          <div className="aspect-video overflow-hidden rounded-md border border-gold/50 bg-card shadow-xl">
-            {VSL_URL ? <iframe src={VSL_URL} title="Reportagem sobre desempenho masculino" className="h-full w-full" allow="autoplay; fullscreen" /> : (
-              <div className="flex h-full flex-col items-center justify-center bg-secondary">
-                <div className="grid h-16 w-16 place-items-center rounded-full border-2 border-primary bg-primary text-primary-foreground shadow-[0_0_32px_var(--button-glow)]"><Play className="ml-1 h-7 w-7 fill-current" /></div>
-                <span className="mt-4 font-sans text-lg font-black uppercase">Reportagem em vídeo</span>
-              </div>
-            )}
+          <div className="overflow-hidden rounded-md border border-border bg-card shadow-xl">
+            <VslPlayer />
           </div>
           <p className="mt-3 text-center font-sans text-sm font-bold uppercase text-accent">▶ Assista o vídeo para entender como funciona</p>
         </section>
 
         <section className="border-y border-border bg-card px-5 py-8 text-center">
-          <h2 className="text-3xl font-black uppercase leading-none">Já viu o vídeo? <span className="text-primary">Agora veja o produto</span> que está a ser falado ao nível nacional.</h2>
-          <p className="mt-4 text-sm leading-relaxed text-muted-foreground">Recomendado a quem busca ser homem de verdade.</p>
+          <h2 className="text-3xl font-black uppercase leading-none">Já viu o vídeo?</h2>
+          <p className="mt-4 text-sm leading-relaxed text-muted-foreground">Agora veja o produto que está a ser falado ao nível nacional e recomendado a quem busca ser homem de verdade.</p>
           <Button className="mt-5" onClick={() => document.querySelector("#produto")?.scrollIntoView({ behavior: "smooth" })}>Ver o produto e oferta</Button>
           <div className="mt-5"><TrustRow compact /></div>
         </section>
@@ -170,8 +205,9 @@ function SalesPage() {
 
         <section className="border-y border-gold/30 bg-secondary px-5 py-12">
           <SectionTitle eyebrow="Quem está por trás da fórmula?">Como surgiu esta fórmula?</SectionTitle>
-          <div className="mt-7 flex aspect-[4/3] items-end justify-center overflow-hidden rounded-md border border-border bg-card p-5">
-            <div className="text-center text-muted-foreground"><div className="mx-auto mb-3 grid h-20 w-20 place-items-center rounded-full border border-dashed border-gold text-gold">FOTO</div><p className="text-xs font-bold uppercase">Dr. Carlos Almeida · Apresentador da fórmula</p></div>
+          <div className="mt-7 overflow-hidden rounded-md border border-border bg-card">
+            <img src={presenterImage} alt="Apresentador da fórmula segurando a caixa de Strong Black Tea" width={671} height={720} loading="lazy" className="w-full object-cover" />
+            <p className="border-t border-border px-4 py-3 text-center text-xs font-bold uppercase text-muted-foreground"><span className="text-foreground">Dr. Carlos Almeida</span> · Apresentador da fórmula · Imagem ilustrativa</p>
           </div>
           <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-muted-foreground">
             <p>Há mais de uma década, o Dr. Carlos Almeida dedica-se a ouvir e entender as dificuldades íntimas que afetam milhares de homens: falta de firmeza, desempenho que falha na hora certa e a queda de confiança que vem atrás.</p>
@@ -198,7 +234,7 @@ function SalesPage() {
 
         <section id="produto" className="scroll-mt-4 border-y border-primary/35 bg-secondary px-5 py-12 text-center">
           <SectionTitle eyebrow="A solução apresentada">Conheça a solução</SectionTitle>
-          <img src={productImage} alt="Embalagem Strong Black Tea For Men 20g" width={1024} height={1024} loading="lazy" className="mx-auto -mb-3 mt-3 w-[90%] drop-shadow-2xl" />
+          <img src={packImage} alt="Caixa de Strong Black Tea para homens" loading="lazy" className="mx-auto mt-5 w-full rounded-md border border-border drop-shadow-2xl" />
           <h3 className="text-4xl font-black uppercase leading-none text-gold">Strong Black Tea <span className="block text-primary">For Men</span></h3>
           <p className="mt-3 text-sm font-black uppercase text-muted-foreground">Fórmula em chá • 20g</p>
           <p className="mt-4 text-base leading-relaxed text-muted-foreground">Uma solução desenvolvida para homens que procuram apoio para a impotência, ejaculação precoce e pénis pequeno encolhido.</p>
@@ -218,10 +254,10 @@ function SalesPage() {
 
         <section id="pedido" className="px-4 py-12">
           <div className="rounded-md border border-gold/50 bg-card p-5 text-center shadow-2xl">
-            <Badge warning>🔥 Oferta</Badge>
-            <h2 className="mt-5 text-4xl font-black uppercase leading-none">Strong Black Tea <span className="block text-primary">For Men</span></h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Veja exactamente o que vai receber: uma embalagem original de Strong Black Tea para homens.</p>
-            <img src={productImage} alt="Uma caixa de Strong Black Tea For Men" width={1024} height={1024} loading="lazy" className="mx-auto -my-6 w-[82%]" />
+            <Badge warning>🔥 Oferta Strong Black Tea</Badge>
+            <h2 className="mt-5 text-4xl font-black uppercase leading-none">Veja exactamente <span className="text-primary">o que vai receber</span></h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">Uma embalagem original de Strong Black Tea para homens, apresentada de forma clara antes de fazer o seu pedido.</p>
+            <img src={offerImage} alt="Embalagem Strong Black Tea para homens com chá preparado" loading="lazy" className="mx-auto mt-5 w-full rounded-md border border-border" />
             <p className="text-sm font-black uppercase text-muted-foreground">Produto físico • 20g • Pague ao receber</p>
             <p className="mt-2 font-sans text-6xl font-black leading-none text-gold">1.049 <span className="text-3xl">MT</span></p>
             <p className="mt-2 text-xs font-semibold text-muted-foreground">Pagamento na entrega para melhor segurança em ambas partes</p>
@@ -256,7 +292,7 @@ function SalesPage() {
         </section>
 
         <footer className="border-t border-border bg-card px-5 pb-28 pt-7 text-center md:pb-7">
-          <p className="text-xs leading-relaxed text-muted-foreground">Este conteúdo é informativo e não substitui avaliação profissional. Resultados podem variar. Consulte um profissional de saúde antes de utilizar qualquer produto, sobretudo se tiver uma condição de saúde ou utilizar medicação.</p>
+          <p className="text-xs leading-relaxed text-muted-foreground">Este conteúdo é informativo e não substitui avaliação profissional. Resultados podem variar. Consulte um profissional de saúde antes de utilizar qualquer produto, sobretudo se tiver uma condição de saúde ou utilizar medicação. Cerca de 90% dos nossos clientes tiveram resultados satisfatórios após o uso.</p>
           <p className="mt-5 text-[10px] font-bold uppercase text-muted-foreground">© 2026 Strong Black Tea — For Men</p>
         </footer>
       </div>

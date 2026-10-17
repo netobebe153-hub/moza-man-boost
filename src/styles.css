@@ -61,7 +61,7 @@
   --color-sidebar-ring: var(--sidebar-ring);
   --color-warning: var(--warning);
   --color-gold: var(--gold);
-  --font-sans: "Barlow Condensed", sans-serif;
+  --font-sans: "Anton", "Barlow Condensed", sans-serif;
   --font-body: "Barlow", sans-serif;
 }
 
