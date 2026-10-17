@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Check, ChevronDown, LockKeyhole, MapPin, Play, ShieldCheck, Truck, X } from "lucide-react";
+import { Check, ChevronDown, LockKeyhole, MapPin, ShieldCheck, Truck, X } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import packImage from "@/assets/strong-tea-pack.webp";
