@@ -146,7 +146,7 @@ Headline principal:
 
 Subheadline:
 
-"Veja a reportagem abaixo e descubra o que está por trás desta nova abordagem para o desempenho masculino."
+
 
 O Hero deve gerar curiosidade.
 
